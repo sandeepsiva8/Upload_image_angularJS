@@ -1,0 +1,33 @@
+html
+  head
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js')
+    script(src='https://angular-file-upload.appspot.com/js/ng-file-upload-shim.js')
+    script(src='https://angular-file-upload.appspot.com/js/ng-file-upload.js')
+    script(src='javascripts/script.js')
+    title Home
+  body(ng-app='fileUpload')
+    h1 Angular Node File Upload
+    form(ng-controller='MyCtrl as up', name='up.upload_form')
+      | name  
+      input(type='text', ng-model='up.name')
+      br
+      br
+      |       email 
+      input(type='text', ng-model='up.email')
+      br
+      |       Image 
+      input(type='file', ngf-select='', ng-model='up.file', name='file', ngf-max-size='20MB')
+      |             Image thumbnail: 
+      img(style='width:100px;', ng-show='!!up.file', ngf-thumbnail="up.file || '/thumb.jpg'")
+      i(ng-show='up.upload_form.file.$error.required') *required
+      br
+      i(ng-show='up.upload_form.file.$error.maxSize')
+        | File too large
+        | {{up.file.size / 1000000|number:1}}MB: max 20M
+      //
+        Multiple files
+        <div class="button" ngf-select ng-model="up.files" ngf-multiple="true">Select</div>
+        Drop files: <div ngf-drop ng-model="up.files" class="drop-box">Drop</div> 
+      br
+      button(type='submit', ng-click='up.submit()') submit
+      p {{up.progress}}
